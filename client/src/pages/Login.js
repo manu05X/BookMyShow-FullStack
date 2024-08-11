@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Form, Input, Checkbox, Button, Radio } from "antd";
+import { Form, Input, Button } from "antd";
 import { Link } from "react-router-dom";
 
 function Login() {
