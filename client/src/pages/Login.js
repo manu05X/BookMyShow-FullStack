@@ -17,6 +17,11 @@ function Login() {
         // response.
         message.error(response.message); // message.error is from
       }
+
+      //After successful Login we need to go to Home page of Application
+      //we need to useNavigation hook or DOM property using href
+
+      window.location.href = "/";
     } catch (error) {
       console.log(error);
     }
