@@ -1,10 +1,21 @@
 /*
-Jwt web Token
 
-we need a SECRET_KEY for signature i.e generatting token that will be use to pass while generating the token.
-Thts SECRET_KEY is saved in .env file. But we can't directly access .env file.
- const token = jwt.sign({ userId: user._id }, `${process.env.SECRET_KEY}`);
+Encryptying password using bcrypt
+ Generating salt for encrypting password using bcrypt library
+    const salt = await bcrypt.genSalt(10);
+    10 stands for no of times the random string will be manupulated
 
+
+Login routes
+1> get the email and password from the request body object that client/user is trying to login
+2> Find the email using findOne from User model from Db
+3> Check if the user is present in our db or not. If not then tell them to register
+4> if user exists then chek if password is correct or not. Using bcrypt library compare method for comparing passwords given
+    by user now and the password already stored in the database.
+
+    How compare works in Bcrypt library?
+    Answer: It first takes out the SALT from the previous saved password in DB, then mix the salt into current provided password.
+            Then compare the both string  and check if its same or not.
 */
 
 const express = require("express");
@@ -12,7 +23,6 @@ const router = express.Router();
 
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 
 router.post("/register", async (req, res) => {
   try {
@@ -76,16 +86,11 @@ router.post("/login", async (req, res) => {
       });
     }
 
-    //Now if we reach here then password is correct now we generate JWT token
-    // so as id is present in mongodb and its saved as _id so we can access it from the above user that we already have from User model
-    const token = jwt.sign({ userId: user._id }, `${process.env.SECRET_KEY}`, {
-      expiresIn: "1d",
-    });
+    //Now if we reach here then password is correct now login success
 
     res.send({
       success: true,
       message: "User logged in successfully",
-      token: token,
     });
   } catch (err) {
     res.status(500).send({
