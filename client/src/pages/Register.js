@@ -1,8 +1,19 @@
 import React from "react";
 import { Form, Input, Button, Radio } from "antd";
 import { Link } from "react-router-dom";
+import { RegisterUser } from "../apicalls/users";
 
 function Register() {
+  const submitForm = async (value) => {
+    // console.log(value);
+    try {
+      const res = await RegisterUser(value); //sending the value/object from the register page frontend to the registerUsers front end proxy server function
+      console.log(res);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <header className="App-header">
@@ -11,7 +22,7 @@ function Register() {
             <h1>Register to BookMyShow</h1>
           </section>
           <section className="right-section">
-            <Form layout="vertical">
+            <Form layout="vertical" onFinish={submitForm}>
               <Form.Item
                 label="Name"
                 htmlFor="name"
