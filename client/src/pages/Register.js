@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Radio } from "antd";
+import { Form, Input, Button, Radio, message } from "antd";
 import { Link } from "react-router-dom";
 import { RegisterUser } from "../apicalls/users";
 
@@ -7,8 +7,15 @@ function Register() {
   const submitForm = async (value) => {
     // console.log(value);
     try {
-      const res = await RegisterUser(value); //sending the value/object from the register page frontend to the registerUsers front end proxy server function
-      console.log(res);
+      const response = await RegisterUser(value); //sending the value/object from the register page frontend to the registerUsers front end proxy server function
+      //console.log(res);
+      if (response.success) {
+        // response.success from server after successful registration
+        message.success(response.message); //  message.success is from ant lib
+      } else {
+        // response.
+        message.error(response.message); // message.error is from
+      }
     } catch (error) {
       console.log(error);
     }

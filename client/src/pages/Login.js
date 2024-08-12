@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { Link } from "react-router-dom";
 import { LoginUser } from "../apicalls/users";
 
@@ -8,7 +8,15 @@ function Login() {
   const submitForm = async (Value) => {
     try {
       const response = await LoginUser(Value);
-      console.log(response);
+      //console.log(response);
+      //console.log(res);
+      if (response.success) {
+        // response.success from server after successful registration
+        message.success(response.message); //  message.success is from ant lib
+      } else {
+        // response.
+        message.error(response.message); // message.error is from
+      }
     } catch (error) {
       console.log(error);
     }

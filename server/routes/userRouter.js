@@ -29,7 +29,7 @@ router.post("/register", async (req, res) => {
     const userExists = await User.findOne({ email: req.body.email });
     if (userExists) {
       res.send({
-        success: true,
+        success: false,
         message: "User already exists",
       });
     }
@@ -67,7 +67,8 @@ router.post("/login", async (req, res) => {
 
     //check if user is present or not
     if (!user) {
-      return res.status(404).send({
+      //return res.status(404).send({
+      return res.send({
         success: false,
         message: "You are not registered. Please register first.",
       });
@@ -78,7 +79,8 @@ router.post("/login", async (req, res) => {
     //console.log("validate password -> " + isMatch);
 
     if (!isMatch) {
-      return res.status(400).send({
+      //   return res.status(400).send({
+      return res.send({
         success: false,
         message: "Invalid credentials",
       });
