@@ -12,6 +12,10 @@ Login routes
 3> Check if the user is present in our db or not. If not then tell them to register
 4> if user exists then chek if password is correct or not. Using bcrypt library compare method for comparing passwords given
     by user now and the password already stored in the database.
+
+    How compare works in Bcrypt library?
+    Answer: It first takes out the SALT from the previous saved password in DB, then mix the salt into current provided password.
+            Then compare the both string  and check if its same or not.
 */
 
 const express = require("express");
@@ -32,7 +36,7 @@ router.post("/register", async (req, res) => {
 
     //Generating salt for encrypting password
     const salt = await bcrypt.genSalt(10);
-    console.log(salt); //Generating salt for encrypting password in cli
+    //console.log(salt); //Generating salt for encrypting password in cli
 
     //Mixing the salt with my password i.e we are encrypting the password
     const hashPassword = await bcrypt.hash(req.body.password, salt);
@@ -70,7 +74,7 @@ router.post("/login", async (req, res) => {
     }
 
     //now validate password by comparing req body pass and user model database pass that was saved during registration
-    const isMatch = await bcrypt.compare(password, user.password);
+    const isMatch = await bcrypt.compare(password, user.password); //returns a boolean value
     //console.log("validate password -> " + isMatch);
 
     if (!isMatch) {
