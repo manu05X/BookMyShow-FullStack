@@ -2,8 +2,18 @@ import React from "react";
 
 import { Form, Input, Button } from "antd";
 import { Link } from "react-router-dom";
+import { LoginUser } from "../apicalls/users";
 
 function Login() {
+  const submitForm = async (Value) => {
+    try {
+      const response = await LoginUser(Value);
+      console.log(response);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <header className="App-header">
@@ -13,7 +23,7 @@ function Login() {
           </section>
 
           <section className="right-section">
-            <Form layout="vertical">
+            <Form layout="vertical" onFinish={submitForm}>
               <Form.Item
                 label="Email"
                 htmlFor="email"
