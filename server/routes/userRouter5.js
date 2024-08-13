@@ -8,11 +8,6 @@ Thts SECRET_KEY is saved in .env file. But we can't directly access .env file. S
 
  we can also use 
 
-
-a api(router.get('/get-current-user')) from backend will verify if current user is a valid user or not by using the stored token/credentials on browser
-so router.get('/get-current-user') will verify if current user is a valid user using the stored token/credentials if user enters any 
-other components of the application
-
 */
 
 const express = require("express");
@@ -21,7 +16,6 @@ const router = express.Router();
 const User = require("../models/userModel");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const authMiddleware = require("../middleware.js/authMiddleware");
 
 router.post("/register", async (req, res) => {
   try {
@@ -104,23 +98,6 @@ router.post("/login", async (req, res) => {
       error: error.message,
     });
   }
-});
-
-// validate of a user using the token
-//we need to write a middleware function to validate the token till the loken is valid i.e 1d or 2d or 15 minutes
-// So that if we shout down the application we need not logged in again and again during the the time token is valid
-// if we opened application then the token will be valid and we will log in automatically using the token store in the browser.
-//we want to run our own middleware first before routes happen and users are allowed to access other page resources
-router.get("/get-current-user", authMiddleware, async (req, res) => {
-  // check if token is valid or not using the authMiddleware. the control has gone to the auth middleware
-  //now it returns and we can check the user below.
-  const user = await User.findById(req.body.userId).select("-password");
-  console.log(user);
-  res.send({
-    success: true,
-    message: "User Authorzied for Protected Route",
-    data: user,
-  });
 });
 
 // Export the router
