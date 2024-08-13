@@ -12,9 +12,11 @@ function Register() {
       if (response.success) {
         // response.success from server after successful registration
         message.success(response.message); //  message.success is from ant lib
+
+        window.location.href = "/login";
       } else {
         // response.
-        message.error(response.message); // message.error is from
+        message.error(response.message); // message.error is from antd lib
       }
     } catch (error) {
       console.log(error);

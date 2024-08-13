@@ -9,6 +9,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import { useSelector } from "react-redux";
+import ProtectedRoute from "./component/ProtectedRoute";
+import About from "./pages/About";
 
 function App() {
   //const { loading } = useSelector((state) => state.loading);
@@ -18,7 +20,7 @@ function App() {
   const { user } = useSelector((state) => state.user);
 
   //console.log(loading);
-  //console.log(user);
+  console.log(user);
   return (
     <div>
       {loading && (
@@ -30,7 +32,22 @@ function App() {
 
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <ProtectedRoute>
+                <About />
+              </ProtectedRoute>
+            }
+          />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Routes>
