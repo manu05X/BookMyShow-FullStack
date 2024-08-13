@@ -3,8 +3,11 @@ import React from "react";
 import { Form, Input, Button, message } from "antd";
 import { Link } from "react-router-dom";
 import { LoginUser } from "../apicalls/users";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/userSlice";
 
 function Login() {
+  const dispatch = useDispatch();
   const submitForm = async (Value) => {
     try {
       const response = await LoginUser(Value);
@@ -15,6 +18,8 @@ function Login() {
         // response.success from server after successful registration
         message.success(response.message); //  message.success is from ant lib
         localStorage.setItem("token", response.token); // store the token from server response
+
+        dispatch(setUser(response.user)); //Setting up user value from response from server
       } else {
         // response.
         message.error(response.message); // message.error is from

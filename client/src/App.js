@@ -14,11 +14,20 @@ function App() {
   //const { loading } = useSelector((state) => state.loading);
   // const state = useSelector((state) => state);
   // const { loading } = state.loader || {};
-  const { loading } = useSelector((state) => state.loader.loading);
+  const { loading } = useSelector((state) => state.loader);
+  const { user } = useSelector((state) => state.user);
 
   //console.log(loading);
+  //console.log(user);
   return (
     <div>
+      {loading && (
+        <div className="loader-container">
+          {" "}
+          <div className="loader"> </div>{" "}
+        </div>
+      )}
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
