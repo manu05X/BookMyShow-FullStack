@@ -9,10 +9,12 @@ function Login() {
     try {
       const response = await LoginUser(Value);
       //console.log(response);
-      //console.log(res);
+      //we will save the token recevied from the response i.e from server/backend and save it in my local storage
+
       if (response.success) {
         // response.success from server after successful registration
         message.success(response.message); //  message.success is from ant lib
+        localStorage.setItem("token", response.token); // store the token from server response
       } else {
         // response.
         message.error(response.message); // message.error is from
@@ -44,7 +46,12 @@ function Login() {
                 className="d-block"
                 rules={[{ required: true, message: "Email is required" }]}
               >
-                <Input id="email" type="text" placeholder="Enter your Email" />
+                <Input
+                  id="email"
+                  type="text"
+                  placeholder="Enter your Email"
+                  autoComplete="current-email"
+                />
               </Form.Item>
 
               <Form.Item
@@ -58,6 +65,7 @@ function Login() {
                   id="password"
                   type="password"
                   placeholder="Enter your Password"
+                  autoComplete="current-password"
                 />
               </Form.Item>
 

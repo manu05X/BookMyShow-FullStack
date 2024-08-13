@@ -2,8 +2,11 @@
 Jwt web Token
 
 we need a SECRET_KEY for signature i.e generatting token that will be use to pass while generating the token.
-Thts SECRET_KEY is saved in .env file. But we can't directly access .env file.
+Thts SECRET_KEY is saved in .env file. But we can't directly access .env file. So we insatll npm install dotenv-> it have a method
+  process that can access the .env file.
  const token = jwt.sign({ userId: user._id }, `${process.env.SECRET_KEY}`);
+
+ we can also use 
 
 */
 

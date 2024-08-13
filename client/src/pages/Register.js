@@ -42,6 +42,7 @@ function Register() {
                   type="text"
                   placeholder="Enter your name"
                   rules={[{ required: true, message: "Email is required!" }]}
+                  autoComplete="Previsuly used Name"
                 ></Input>
               </Form.Item>
               <Form.Item
@@ -55,6 +56,7 @@ function Register() {
                   id="email"
                   type="email"
                   placeholder="Enter your email"
+                  autoComplete="Previsuly used email"
                 ></Input>
               </Form.Item>
               <Form.Item
@@ -68,6 +70,7 @@ function Register() {
                   id="password"
                   type="password"
                   placeholder="Enter the password"
+                  autoComplete="Previsuly used password"
                 ></Input>
               </Form.Item>
 

@@ -1,11 +1,22 @@
-import "./App.css";
+/*
+we import useSelector from "react-redux" and get the loader value from redux loading.
+*/
 
+import React from "react";
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import { useSelector } from "react-redux";
 
 function App() {
+  //const { loading } = useSelector((state) => state.loading);
+  // const state = useSelector((state) => state);
+  // const { loading } = state.loader || {};
+  const { loading } = useSelector((state) => state.loader.loading);
+
+  //console.log(loading);
   return (
     <div>
       <BrowserRouter>
