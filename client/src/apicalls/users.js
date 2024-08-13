@@ -31,7 +31,10 @@ export const LoginUser = async (value) => {
 
 export const getCurrentUser = async () => {
   try {
+    //api/users/get-current-user this is a frontend call to get-current-user endpoint in server  saving user data in redux
+    // so that it can be used in every component for checking if user is valid or not for current user
     const response = await axiosInstance.get("api/users/get-current-user");
+    console.log(response);
     return response.data;
   } catch (error) {
     console.log(error);

@@ -11,10 +11,10 @@ function Login() {
   const submitForm = async (Value) => {
     try {
       const response = await LoginUser(Value);
-      //console.log(response);
+      console.log(response);
       //we will save the token recevied from the response i.e from server/backend and save it in my local storage
 
-      if (response.success) {
+      if (response?.success) {
         // response.success from server after successful registration
         message.success(response.message); //  message.success is from ant lib
         localStorage.setItem("token", response.token); // store the token from server response
@@ -22,7 +22,7 @@ function Login() {
         dispatch(setUser(response.user)); //Setting up user value from response from server
       } else {
         // response.
-        message.error(response.message); // message.error is from
+        message.error(response?.message || "Login failed"); // message.error is from
       }
 
       //After successful Login we need to go to Home page of Application
