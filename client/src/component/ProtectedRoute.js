@@ -57,6 +57,7 @@ import {
   UserOutlined,
   ProfileOutlined,
   LogoutOutlined,
+  DashboardOutlined,
 } from "@ant-design/icons";
 
 function ProtectedRoute({ children }) {
@@ -64,8 +65,8 @@ function ProtectedRoute({ children }) {
   const { user } = useSelector((state) => state.user);
   console.log("StateUser  ", user);
 
-  // before seting the user we check if the user is valid user or not
-  //our frontend need to make a api call
+  // before setting the user, we check if the user is valid or not
+  // our frontend needs to make an API call
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -73,19 +74,24 @@ function ProtectedRoute({ children }) {
     {
       label: "Home",
       icon: <HomeOutlined />,
+      onClick: () => navigate("/"),
     },
-
+    user &&
+      user.isAdmin && {
+        label: "Admin Dashboard",
+        icon: <DashboardOutlined />,
+        onClick: () => navigate("/admin"),
+      },
     {
       label: `${user ? user.name : " "}`,
       icon: <UserOutlined />,
-
-      //nested Objects
+      // nested Objects
       children: [
         {
           label: (
             <span
               onClick={() => {
-                user.isAdmin ? navigate("/admin") : navigate("/profile");
+                navigate("/profile");
               }}
             >
               My Profile
@@ -94,6 +100,7 @@ function ProtectedRoute({ children }) {
           icon: <ProfileOutlined />,
         },
         {
+          // If we click the logOut button, remove the token and return to the login page
           label: (
             <Link to="/login" onClick={() => localStorage.removeItem("token")}>
               Log out
@@ -103,7 +110,7 @@ function ProtectedRoute({ children }) {
         },
       ],
     },
-  ];
+  ].filter(Boolean); // Filter out undefined items (like admin dashboard for non-admins)
 
   const getValidUser = async () => {
     try {
@@ -116,7 +123,6 @@ function ProtectedRoute({ children }) {
       } else {
         dispatch(setUser(null));
         message.error(response.message);
-        // dispatch(hideLoading());
         localStorage.removeItem("token");
         navigate("/login");
       }
@@ -162,12 +168,6 @@ function ProtectedRoute({ children }) {
         </Layout>
       </>
     )
-
-    // <>
-    //   {/* <div>{children}</div>
-    //   {user ? <h1>{user.name}</h1> : <h1>Loading...</h1>} */}
-
-    // </>
   );
 }
 
