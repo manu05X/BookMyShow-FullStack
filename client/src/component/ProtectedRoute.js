@@ -51,6 +51,8 @@ import { getCurrentUser } from "../apicalls/users";
 import { useNavigate } from "react-router-dom";
 
 function ProtectedRoute({ children }) {
+  // before seting the user we check if the user is valid user or not
+  //our frontend need to make a api call
   const dispatch = useDispatch();
   const navigate = useNavigate();
 

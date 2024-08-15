@@ -10,8 +10,8 @@ This project is a full-stack application that includes a backend server using Ex
 
 1. **Request**: `POST /register`
    - **Inputs**: `email`, `password`
-   
 2. **Process**:
+
    - Check if the user already exists in MongoDB.
    - If the user exists, return a 400 status with an error message.
    - If not, hash the password using `bcrypt`.
@@ -26,8 +26,8 @@ This project is a full-stack application that includes a backend server using Ex
 
 1. **Request**: `POST /login`
    - **Inputs**: `email`, `password`
-   
 2. **Process**:
+
    - Find the user by email in MongoDB.
    - Validate the password using `bcrypt`.
    - If validation fails, return a 400 status with an error message.
@@ -42,8 +42,8 @@ This project is a full-stack application that includes a backend server using Ex
 
 1. **Request**: `GET /get-current-user`
    - **Middleware**: `authMiddleware`
-   
 2. **Process**:
+
    - Verify the JWT token.
    - Retrieve user data from MongoDB using the user ID from the token.
    - Respond with user data.
@@ -55,6 +55,7 @@ This project is a full-stack application that includes a backend server using Ex
 ### 4. **Auth Middleware**
 
 1. **Process**:
+
    - Extract JWT token from the `Authorization` header.
    - Verify the token using `jsonwebtoken`.
    - Attach `userId` from the token to `req.body`.
@@ -69,7 +70,6 @@ This project is a full-stack application that includes a backend server using Ex
 
 1. **Action**: `RegisterUser` function
    - **Inputs**: User registration data (`value`)
-   
 2. **Process**:
    - Send a `POST` request to `/api/users/register` with the registration data.
    - Handle success and error responses.
@@ -78,7 +78,6 @@ This project is a full-stack application that includes a backend server using Ex
 
 1. **Action**: `LoginUser` function
    - **Inputs**: User login data (`value`)
-   
 2. **Process**:
    - Send a `POST` request to `/api/users/login` with the login data.
    - On success, store the JWT token in local storage and update Redux state with user data.
@@ -99,7 +98,6 @@ This project is a full-stack application that includes a backend server using Ex
      - Check if a JWT token is present in local storage.
      - If present, call `getValidUser` to validate the token.
      - If invalid or missing, redirect to the login page.
-   
 2. **Usage**:
    - Wrap protected routes with `ProtectedRoute` to ensure only authenticated users can access them.
 
@@ -107,17 +105,15 @@ This project is a full-stack application that includes a backend server using Ex
 
 #### User Slice
 
-1. **State**: 
+1. **State**:
    - `user`: Holds the current user's data.
-   
 2. **Reducers**:
    - `setUser`: Update the user data in the state.
 
 #### Loader Slice
 
-1. **State**: 
+1. **State**:
    - `loading`: Boolean indicating if data is loading.
-   
 2. **Reducers**:
    - `showLoading`: Set loading to true.
    - `hideLoading`: Set loading to false.
@@ -125,6 +121,7 @@ This project is a full-stack application that includes a backend server using Ex
 ### 6. **API Calls with Axios**
 
 1. **Configuration**:
+
    - `Content-Type`: `application/json`
    - `Authorization`: Bearer token from local storage.
 
