@@ -119,6 +119,13 @@ function ProtectedRoute({ children }) {
 
       if (response.success) {
         dispatch(setUser(response.data)); // we send out user data to redux to be used in every component
+
+        //if user is not admin or given admin control on the dashboard only if isAdmin is true
+        // if (!response.data.isAdmin) {
+        //   message.error("You are not allowed to access this page");
+        //   navigate("/");
+        // }
+
         dispatch(hideLoading());
       } else {
         dispatch(setUser(null));
@@ -134,6 +141,7 @@ function ProtectedRoute({ children }) {
     }
   };
 
+  //whenever the component mounted again i.e component is loaded again this useEffect is called and getValidUser is called
   useEffect(() => {
     if (localStorage.getItem("token")) {
       getValidUser();
