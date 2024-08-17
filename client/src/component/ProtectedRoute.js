@@ -44,7 +44,7 @@ function ProtectedRoute({ children }) {
 export default ProtectedRoute;
 */
 
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { hideLoading, showLoading } from "../redux/loaderSlice";
 import { getCurrentUser } from "../apicalls/users";
@@ -111,7 +111,7 @@ function ProtectedRoute({ children }) {
       ],
     },
   ].filter(Boolean); // Filter out undefined items (like admin dashboard for non-admins)
-
+  /*
   const getValidUser = async () => {
     try {
       dispatch(showLoading());
@@ -140,6 +140,36 @@ function ProtectedRoute({ children }) {
       navigate("/login");
     }
   };
+*/
+  const getValidUser = useCallback(async () => {
+    try {
+      dispatch(showLoading());
+      const response = await getCurrentUser();
+
+      if (response.success) {
+        dispatch(setUser(response.data));
+        dispatch(hideLoading());
+      } else {
+        dispatch(setUser(null));
+        message.error(response.message);
+        localStorage.removeItem("token");
+        navigate("/login");
+      }
+    } catch (error) {
+      console.error(error);
+      dispatch(hideLoading());
+      localStorage.removeItem("token");
+      navigate("/login");
+    }
+  }, [dispatch, navigate]);
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      getValidUser();
+    } else {
+      navigate("/login");
+    }
+  }, [navigate, getValidUser]);
 
   //whenever the component mounted again i.e component is loaded again this useEffect is called and getValidUser is called
   useEffect(() => {
@@ -148,7 +178,17 @@ function ProtectedRoute({ children }) {
     } else {
       navigate("/login");
     }
+  }, [navigate, getValidUser]);
+
+  /*
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      getValidUser();
+    } else {
+      navigate("/login");
+    }
   }, [navigate]);
+  */
 
   return (
     user && (

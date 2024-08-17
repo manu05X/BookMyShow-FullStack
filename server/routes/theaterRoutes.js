@@ -20,7 +20,7 @@ router.put("/update-theatre", updateThreatre);
 // Get current user route
 router.get("/get-all-theatres", getAllThreatre);
 
-router.get("/get-all-theatres-by-owner", getAllThreatreByOwner);
+router.post("/get-all-theatres-by-owner", getAllThreatreByOwner);
 
 // Delete theatre route
 router.delete("/delete-theatre", deleteThreatre);

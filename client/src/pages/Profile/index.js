@@ -1,8 +1,7 @@
-import React, { Children } from "react";
 import { Tabs } from "antd";
 import { useSelector } from "react-redux";
 import TheatreList from "./TheatreList";
-import Bookings from "./Booking";
+import Booking from "./Booking";
 
 const Profile = () => {
   const { user } = useSelector((state) => state.user);
@@ -12,12 +11,12 @@ const Profile = () => {
     {
       key: "1",
       label: "Theatres",
-      Children: <TheatreList />,
+      children: <TheatreList />,
     },
     {
       key: "2",
       label: "Bookings",
-      Children: <Bookings />,
+      children: <Booking />,
     },
   ];
 
