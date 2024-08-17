@@ -1,0 +1,62 @@
+Detailed Breakdown
+
+1. Controllers
+
+   - Purpose: Controllers handle the logic for specific routes, such as processing user input and interacting with the database.
+
+   - Functions:
+     - registerUser: Registers a new user by checking if the user already exists, hashing the password, and saving the new user to the database.
+     - loginUser: Handles user login by verifying the user’s credentials and generating a JWT token.
+     - getCurrentUser: Retrieves the currently authenticated user’s details, excluding the password.
+
+2. Routes
+
+- Purpose: Routes define the endpoints of your API and map them to corresponding controller functions.
+
+- APIs:
+
+  - POST /api/users/register: Calls registerUser to register a new user.
+  - POST /api/users/login: Calls loginUser to log in a user.
+  - GET /api/users/get-current-user: Calls getCurrentUser to fetch current user details (protected by authMiddleware).
+
+3.  Middleware
+
+    - Purpose: Middleware functions process requests before they reach the controllers. They are often used for tasks like authentication and logging.
+
+    - Function:
+
+      - authMiddleware: Verifies the JWT token from the request headers. If the token is valid, the request proceeds; if not, an error message is sent.
+
+4.  Database
+
+    - Purpose: The database connection file establishes a connection to MongoDB.
+
+    Function:
+
+        * connectDB: Connects to MongoDB using Mongoose and handles connection errors.
+
+5.  Main Application (index.js)
+
+    - Purpose: This is the entry point of your Node.js application, setting up middleware, routes, and starting the server.
+
+    - Details:
+
+      - Uses express.json() and express.urlencoded() middleware for parsing request bodies.
+      - Sets up /api/users routes.
+      - Starts the server on the specified port and listens for incoming requests.
+
+Token Extraction: authMiddleware extracts the token from the Authorization header of the incoming request.
+
+Token Verification: The middleware uses the JWT library to decode and verify the token. This involves checking the token’s signature and expiration.
+
+Authorization Check: If the token is valid, authMiddleware attaches user information to the request and allows it to proceed to the route handler. If invalid, it returns an error response.
+
+Explanation:
+
+1. authMiddleware: Intercepts requests and begins the token verification process.
+2. Extracts Token: Retrieves the token from the Authorization header.
+3. JWT: The JWT library is used to decode and verify the token.
+4. Token Validity Check:
+   - Valid Token: If the token is valid, user information is attached to the request, and it proceeds to the route handler.
+   - Invalid Token: If the token is invalid, an error response is generated and sent back to the client.
+5. Client Side: Shows where the token is stored on the client side and how it’s sent with requests.
