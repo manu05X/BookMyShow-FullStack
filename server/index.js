@@ -3,6 +3,7 @@ require("dotenv").config(); // Load environment variables from .env file
 const express = require("express");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/useRouter");
+const theatreRoutes = require("./routes/theaterRoutes");
 
 const app = express();
 
@@ -15,6 +16,7 @@ connectDB();
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/theatre", theatreRoutes);
 
 // Define the port
 const PORT = process.env.PORT || 8000;
