@@ -2,7 +2,7 @@
 
 const Theatre = require("../models/theatreModel");
 
-//Add new Threat
+//1> Add new Threat
 /*
 
 exports.addThreatre = async (req, res) => {:
@@ -43,7 +43,7 @@ exports.addThreatre = async (req, res) => {
   }
 };
 
-// Update the threat model
+//2> Update the threat model
 /*
 
 exports.updateThreatre = async (req, res) => {:

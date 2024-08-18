@@ -8,11 +8,10 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Admin from "./pages/Admin/index";
-import Profile from "./pages/Profile/index";
+import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./component/ProtectedRoute";
-import About from "./pages/About";
 
 function App() {
   //const { loading } = useSelector((state) => state.loading);
@@ -39,14 +38,6 @@ function App() {
             element={
               <ProtectedRoute>
                 <Home />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/about"
-            element={
-              <ProtectedRoute>
-                <About />
               </ProtectedRoute>
             }
           />
