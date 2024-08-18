@@ -3,7 +3,7 @@ import { axiosInstance } from "./index";
 export const addThreatre = async (payloads) => {
   try {
     const response = await axiosInstance.post(
-      "/api/threatre/add-threatre",
+      "/api/theatre/add-theatre",
       payloads
     );
     return response.data;

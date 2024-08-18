@@ -3,7 +3,7 @@ import React from "react";
 import { Col, Modal, Row, Form, Input, Button, message } from "antd";
 import { showLoading, hideLoading } from "../../redux/loaderSlice";
 import { useDispatch } from "react-redux";
-import { addThreatre, updateThreatre } from "../../apicalls/theatres";
+import { addThreatre } from "../../apicalls/theatres";
 
 import TextArea from "antd/es/input/TextArea";
 import { useSelector } from "react-redux";
@@ -19,44 +19,44 @@ const TheatreFormModal = ({
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
 
-  //   const onFinish = async (value) => {
-  //     try {
-  //       const response = await addThreatre({ ...value, owner: user._id }); // new Theater along with user id is saved in database using redux.
-  //       console.log(response);
-  //       if (response.success) {
-  //         console.log("Adding new Theater in DB Successfully");
-  //         console.log(response.success);
-  //         message.success(response.success);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-
-  const onFinish = async (values) => {
+  const onFinish = async (value) => {
     try {
-      dispatch(showLoading());
-      let response = null;
-      if (formType === "add") {
-        response = await addThreatre({ ...values, owner: user._id });
-      } else {
-        values.theatreId = selectedTheatre._id;
-        response = await updateThreatre(values);
-      }
+      const response = await addThreatre({ ...value, owner: user._id });
       console.log(response);
       if (response.success) {
-        getData();
-        message.success(response.message);
-        setIsModalOpen(false);
-      } else {
-        message.error(response.message);
+        console.log(response.success);
+
+        message.success(response.success);
       }
-      dispatch(hideLoading());
-    } catch (err) {
-      dispatch(hideLoading());
-      message.error(err.message);
+    } catch (error) {
+      console.log(error);
     }
   };
+
+  //   const onFinish = async (values) => {
+  //     try {
+  //       dispatch(showLoading());
+  //       let response = null;
+  //       if (formType === "add") {
+  //         response = await addThreatre({ ...values, owner: user._id });
+  //       } else {
+  //         values.theatreId = selectedTheatre._id;
+  //         response = await updateThreatre(values);
+  //       }
+  //       console.log(response);
+  //       if (response.success) {
+  //         getData();
+  //         message.success(response.message);
+  //         setIsModalOpen(false);
+  //       } else {
+  //         message.error(response.message);
+  //       }
+  //       dispatch(hideLoading());
+  //     } catch (err) {
+  //       dispatch(hideLoading());
+  //       message.error(err.message);
+  //     }
+  //   };
 
   const handleCancel = () => {
     setIsModalOpen(false); // Close the modal
