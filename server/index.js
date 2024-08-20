@@ -4,6 +4,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/useRouter");
 const theatreRoutes = require("./routes/theaterRoutes");
+const movieRoutes = require("./routes/movieRoutes");
 
 const app = express();
 
@@ -17,7 +18,7 @@ connectDB();
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/theatre", theatreRoutes);
-//api/theatre/get-all-theatres
+app.use("/api/movies", movieRoutes);
 
 // Define the port
 const PORT = process.env.PORT || 8000;
