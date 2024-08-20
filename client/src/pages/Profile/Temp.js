@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 import { Table, Button, message } from "antd";
 import TheatreFormModal from "./TheatreFormModal";
 import DeleteTheatreModal from "./DeleteTheatreModal";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
-import { showLoading, hideLoading } from "../../redux/loaderSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { getAllThreatreByOwner } from "../../apicalls/theatres";
+import { getAllTheatres } from "../../apicalls/theatres";
+import { useSelector, useDispatch } from "react-redux";
+import { showLoading, hideLoading } from "../../redux/loadersSlice";
 import ShowModal from "./ShowModal";
 
 const TheatreList = () => {
@@ -16,19 +16,17 @@ const TheatreList = () => {
   const [formType, setFormType] = useState("add");
   const [theatres, setTheatres] = useState(null);
   const [isShowModalOpen, setIsShowModalOpen] = useState(false);
-
   const dispatch = useDispatch();
 
-  // Wrap the getData function in useCallback to avoid unnecessary re-creations.
-  const getData = useCallback(async () => {
+  const getData = async () => {
     try {
       dispatch(showLoading());
-      const response = await getAllThreatreByOwner({ owner: user._id });
+      const response = await getAllTheatres({ owner: user._id });
       if (response.success) {
-        const allThreatre = response.data;
-        console.log(allThreatre);
+        const allTheatres = response.data;
+        // console.log(allTheatres);
         setTheatres(
-          allThreatre.map(function (item) {
+          allTheatres.map(function (item) {
             return { ...item, key: `theatre${item._id}` };
           })
         );
@@ -36,15 +34,11 @@ const TheatreList = () => {
         message.error(response.message);
       }
       dispatch(hideLoading());
-    } catch (error) {
+    } catch (err) {
       dispatch(hideLoading());
-      message.error(error.message);
+      message.error(err.message);
     }
-  }, [dispatch, user._id]);
-
-  useEffect(() => {
-    getData();
-  }, [getData]);
+  };
 
   const columns = [
     {
@@ -71,7 +65,11 @@ const TheatreList = () => {
       title: "Status",
       dataIndex: "status",
       render: (status, data) => {
-        return data.isActive ? "Approved" : "Pending/Blocked";
+        if (data.isActive) {
+          return `Approved`;
+        } else {
+          return `Pending/ Blocked`;
+        }
       },
     },
     {
@@ -113,10 +111,20 @@ const TheatreList = () => {
     },
   ];
 
+  useEffect(() => {
+    getData();
+  }, []);
+
   return (
     <>
       <div className="d-flex justify-content-end">
-        <Button type="primary" onClick={() => setIsModalOpen(true)}>
+        <Button
+          type="primary"
+          onClick={() => {
+            setIsModalOpen(true);
+            setFormType("add");
+          }}
+        >
           Add Theatre
         </Button>
       </div>
@@ -124,6 +132,8 @@ const TheatreList = () => {
       {isModalOpen && (
         <TheatreFormModal
           isModalOpen={isModalOpen}
+          selectedTheatre={selectedTheatre}
+          setSelectedTheatre={setSelectedTheatre}
           setIsModalOpen={setIsModalOpen}
           formType={formType}
           getData={getData}
@@ -132,10 +142,13 @@ const TheatreList = () => {
       {isDeleteModalOpen && (
         <DeleteTheatreModal
           isDeleteModalOpen={isDeleteModalOpen}
-          setIsDeleteModalOpen={setIsDeleteModalOpen}
           selectedTheatre={selectedTheatre}
+          setIsDeleteModalOpen={setIsDeleteModalOpen}
+          setSelectedTheatre={setSelectedTheatre}
+          getData={getData}
         />
       )}
+
       {isShowModalOpen && (
         <ShowModal
           isShowModalOpen={isShowModalOpen}
@@ -148,18 +161,3 @@ const TheatreList = () => {
 };
 
 export default TheatreList;
-
-/*
-How isModalOpen Controls the Modal
-    Initial Render:
-        - When the TheatreList component is first rendered, isModalOpen is set to true (as defined by useState(true)).
-        - Since isModalOpen is true, the TheatreFormModal component is rendered inside the TheatreList component.
-        - The above line of code checks if isModalOpen is true. If it is, the TheatreFormModal component will be included in the rendered output. 
-        If isModalOpen is false, the modal component won't be rendered at all.
-
-Toggling the Modal:
-    - Opening the Modal: If setIsModalOpen(true) is called anywhere in the component, it will update isModalOpen to true, and the modal will be rendered.
-    - Closing the Modal: If setIsModalOpen(false) is called, it will set isModalOpen to false, and the modal will be removed from the rendered output (i.e., it will close).
-
-
-*/

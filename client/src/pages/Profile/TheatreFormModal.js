@@ -19,42 +19,48 @@ const TheatreFormModal = ({
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.user);
 
-  //   const onFinish = async (value) => {
-  //     try {
-  //       const response = await addThreatre({ ...value, owner: user._id }); // new Theater along with user id is saved in database using redux.
-  //       console.log(response);
-  //       if (response.success) {
-  //         console.log("Adding new Theater in DB Successfully");
-  //         console.log(response.success);
-  //         message.success(response.success);
-  //       }
-  //     } catch (error) {
-  //       console.log(error);
+  // const onFinish = async (value) => {
+  //   try {
+  //     const response = await addThreatre({ ...value, owner: user._id }); // new Theater along with user id is saved in database using redux.
+  //     console.log(response);
+  //     if (response.success) {
+  //       console.log("Adding new Theater in DB Successfully");
+  //       console.log(response.success);
+  //       message.success(response.success);
   //     }
-  //   };
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   const onFinish = async (values) => {
     try {
-      dispatch(showLoading());
+      dispatch(showLoading()); // Show loading indicator
+
       let response = null;
       if (formType === "add") {
+        // Add new Theatre
         response = await addThreatre({ ...values, owner: user._id });
       } else {
+        // Update existing Theatre
         values.theatreId = selectedTheatre._id;
         response = await updateThreatre(values);
       }
+
       console.log(response);
+
       if (response.success) {
-        getData();
-        message.success(response.message);
-        setIsModalOpen(false);
+        getData(); // Fetch updated data after successful operation
+        message.success("Theatre processed successfully!"); // Display success message
+        setIsModalOpen(false); // Close the modal
       } else {
-        message.error(response.message);
+        message.error(response.message); // Display error message from response
       }
-      dispatch(hideLoading());
     } catch (err) {
-      dispatch(hideLoading());
-      message.error(err.message);
+      console.error(err); // Log the error
+      message.error("An error occurred while processing your request."); // Show generic error message
+    } finally {
+      dispatch(hideLoading()); // Always hide the loading indicator
     }
   };
 
@@ -66,10 +72,12 @@ const TheatreFormModal = ({
   return (
     <>
       <Modal
+        centered
+        title={formType === "add" ? "Add Theatre" : "Edit Theatre"}
         open={isModalOpen}
         onCancel={handleCancel}
+        width={800}
         footer={null}
-        closeIcon={null}
       >
         <Form
           layout="vertical"

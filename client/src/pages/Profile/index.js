@@ -1,3 +1,4 @@
+import React from "react";
 import { Tabs } from "antd";
 import { useSelector } from "react-redux";
 import TheatreList from "./TheatreList";
