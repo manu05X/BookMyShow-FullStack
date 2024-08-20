@@ -5,7 +5,7 @@ export const addThreatre = async (payloads) => {
     const response = await axiosInstance.post(
       "/api/theatre/add-theatre",
       payloads
-    );
+    ); // /api/theatre
     return response.data;
   } catch (error) {
     //console.log(error);
@@ -16,7 +16,7 @@ export const addThreatre = async (payloads) => {
 export const updateThreatre = async (payloads) => {
   try {
     const response = await axiosInstance.put(
-      "/api/threatre/update-threatre",
+      "/api/theatre/update-theatre",
       payloads
     );
 
@@ -29,10 +29,10 @@ export const updateThreatre = async (payloads) => {
 // Get all theatres for the Admin route
 export const getAllThreatresForAdmin = async () => {
   try {
-    const response = await axiosInstance.get("/api/threatre/get-all-threatres");
+    const response = await axiosInstance.get("/api/theatre/get-all-theatres"); //api/theatre/get-all-theatres //api/theatre/get-all-theatres
     return response.data;
   } catch (error) {
-    return error.message;
+    return error.response;
   }
 };
 

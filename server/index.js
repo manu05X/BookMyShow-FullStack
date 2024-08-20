@@ -17,6 +17,7 @@ connectDB();
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/theatre", theatreRoutes);
+//api/theatre/get-all-theatres
 
 // Define the port
 const PORT = process.env.PORT || 8000;

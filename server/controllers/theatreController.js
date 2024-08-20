@@ -88,8 +88,9 @@ res.send({ success: true, message: "All theatres fetched successfully!", data: a
 */
 exports.getAllThreatre = async (req, res) => {
   try {
+    //goes into theater collection and find it based on populate method that expect a key based on which it find theater owner
     const allThreats = await Theatre.find().populate("owner");
-
+    console.log(allThreats);
     res.send({
       success: true,
       message: "All theatres fetched successfully!",
