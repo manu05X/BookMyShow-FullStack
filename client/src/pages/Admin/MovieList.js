@@ -7,6 +7,7 @@ import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../../redux/loaderSlice";
 import { getAllMovies } from "../../apicalls/movies";
 import moment from "moment";
+// moment is a react library that handles date formats in a way that is relevant
 
 // const dataSource = [
 //     {
@@ -109,7 +110,7 @@ const MovieList = () => {
       title: "Release Date",
       dataIndex: "releaseDate",
       render: (text, data) => {
-        return moment(data.releaseDate).format("MM-DD-YYYY");
+        return moment(data.releaseDate).format("MM-DD-YYYY"); //moment is a react library that handles date formats in a way that is relevant
       },
     },
     {

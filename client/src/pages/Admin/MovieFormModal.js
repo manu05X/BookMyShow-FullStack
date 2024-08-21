@@ -28,12 +28,16 @@ const MovieFormModal = ({
 
   const onFinish = async (values) => {
     //console.log(values);
+    //The values are as payload from frontend (client) that will be passed to the backend api through function i.e addMovie,
+    // updateMovie , removeMovie and it will be be saved in the database and
     try {
       dispatch(showLoading());
       let response = null;
+      //if formType is add then call addMovie api that has route /api/movies/add-movie and takes parameters to save it in the database
       if (formType === "add") {
         response = await addMovie(values);
       } else {
+        // else call if formType is not add we call updateMovie api with update values and movie id
         response = await updateMovie({ ...values, movieId: selectedMovie._id });
       }
       console.log(response);
@@ -85,6 +89,7 @@ const MovieFormModal = ({
           }}
         >
           <Col span={24}>
+            {/* 1> TITLE of movie */}
             <Form.Item
               label="Movie Name"
               htmlFor="title"
@@ -100,6 +105,7 @@ const MovieFormModal = ({
             </Form.Item>
           </Col>
           <Col span={24}>
+            {/*2> Description of Movie */}
             <Form.Item
               label="Description"
               htmlFor="description"
@@ -124,6 +130,7 @@ const MovieFormModal = ({
               }}
             >
               <Col span={8}>
+                {/*3> Movie  Duration (in min) */}
                 <Form.Item
                   label="Movie  Duration (in min)"
                   htmlFor="duration"
@@ -141,6 +148,7 @@ const MovieFormModal = ({
                 </Form.Item>
               </Col>
               <Col span={8}>
+                {/* 4> Select Movie Lanuage */}
                 <Form.Item
                   label="Select Movie Lanuage"
                   htmlFor="language"
@@ -167,6 +175,7 @@ const MovieFormModal = ({
                 </Form.Item>
               </Col>
               <Col span={8}>
+                {/* 5> Release Date -> here we have Calander */}
                 <Form.Item
                   label="Release Date"
                   htmlFor="releaseDate"
@@ -198,6 +207,7 @@ const MovieFormModal = ({
               }}
             >
               <Col span={8}>
+                {/*6> Select Movie Genre */}
                 <Form.Item
                   label="Select Movie Genre"
                   htmlFor="genre"
@@ -225,6 +235,7 @@ const MovieFormModal = ({
                 </Form.Item>
               </Col>
               <Col span={16}>
+                {/*7> Poster  URL */}
                 <Form.Item
                   label="Poster  URL"
                   htmlFor="poster"
@@ -244,6 +255,7 @@ const MovieFormModal = ({
             </Row>
           </Col>
         </Row>
+        {/* Buttons */}
         <Form.Item>
           <Button
             block
