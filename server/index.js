@@ -53,6 +53,16 @@ app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
 
+
+
 */
 
 //https://github.com/mrinal1224/project/tree/master
+
+/*
+Model -> Routes(Backend CURD API) ->  call these routes from index.js with route api -> 
+  connect the frontend with the backend ("proxy": "http://localhost:8000" at the end of package.json) -> make a api module -> now use 
+  asyn await to call these routes using the function name that contains the route api using event handlers present on buttons or any
+  thing that capcture the evnt on frontend
+
+*/

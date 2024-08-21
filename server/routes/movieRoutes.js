@@ -1,9 +1,33 @@
 // Add , Update , Delete and Get Movies
+//
 
 const router = require("express").Router();
+//const authMiddleware = require("../middleware/authMiddleware");
 const Movie = require("../models/movieModel");
 
 // Add Movie
+// we must keep the auth middeleware in these routes but as we are make a simple project just for learning we remove it
+// router.post("/add-movie", authMiddleware,async (req, res) => {
+//     try {
+//       const newMovie = new Movie(req.body);
+//       await newMovie.save();
+//       console.log(newMovie);
+//       res.send({
+//         success: true,
+//         message: "New movie has been added!",
+//       });
+//     } catch (err) {
+//       res.send({
+//         success: false,
+//         message: err.message,
+//       });
+//     }
+//   });
+
+// Add Movie
+//  As soon as the route is hit, the request.body will respond to movie model that has collection and inside this collection i am trying to add
+// to add req.body and it contains the data from frontend as payload. now the express route will add it into the collection using
+// await newMovie.save(); and it will add it into the collection and a successful response will be returned from the server to the client
 router.post("/add-movie", async (req, res) => {
   try {
     const newMovie = new Movie(req.body);

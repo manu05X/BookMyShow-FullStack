@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, message } from "antd";
-// import MovieFormModal from "./MovieFormModal";
-// import DeleteMovieModal from "./DeleteMovieModal";
+import MovieFormModal from "./MovieFormModal";
+import DeleteMovieModal from "./DeleteMovieModal";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useDispatch } from "react-redux";
 import { showLoading, hideLoading } from "../../redux/loaderSlice";
@@ -159,8 +159,34 @@ const MovieList = () => {
         </Button>
       </div>
       <Table dataSource={movies} columns={columns} />
+      {isModalOpen && (
+        <MovieFormModal
+          isModalOpen={isModalOpen}
+          selectedMovie={selectedMovie}
+          setSelectedMovie={setSelectedMovie}
+          setIsModalOpen={setIsModalOpen}
+          formType={formType}
+          getData={getData}
+        />
+      )}
+      {isDeleteModalOpen && (
+        <DeleteMovieModal
+          isDeleteModalOpen={isDeleteModalOpen}
+          selectedMovie={selectedMovie}
+          setIsDeleteModalOpen={setIsDeleteModalOpen}
+          setSelectedMovie={setSelectedMovie}
+          getData={getData}
+        />
+      )}
     </>
   );
 };
 
 export default MovieList;
+
+/*
+1> When Add Movie button is clicked it sets the setIsModalOpen = true 
+2> WhenEver this setIsModalOpen is true this value goes to MovieFormModal -> then it sets the Modal's isModalOpen to true -> A form 
+    pops up and then we can add the Movie data
+
+*/

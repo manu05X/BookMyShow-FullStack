@@ -1,0 +1,63 @@
+React query is use for state management purposes e.g(redux,context api, etc) it makes state management easier
+
+JS into 4 part 
+    1> Fundamental and Basic
+        a> Execution Context
+        b> Variable -> let, const, var
+        c> Hoisting
+        d> Temporal Dead Zone
+        e> Arrays and Objects are V.V. Imp along with their memories (where  they are created?)
+                    their are 2 kind of memory in JS one for primitive dataType(Stack memeory) and Refrence dataType(Heap memory)
+        f> Functions and Arrow Functions
+
+    2> Functional Programming
+        a> Callback function
+        b> Pure and Immpure functions with side effects(V.V.Imp)
+        c> Higher Order Functions
+        d> Higher Order Methods -> (Map, Filter, reduce, find, findIndex, ForEach etc...)
+        e> Polyfills of Map , Filter, Reduce
+        f> Practices some problem solving based on functional programming. i.e if we can use map, filter, reduce in a function          programming to get the data. And some DSA.
+    
+    3> OOP's 
+        a> This Keyword
+        b> Classes and constructors
+        c> Prototype and Prototypepal Inheritance
+        d> Call , Apply and Bind
+        e> Pollyfills of Call, Apply and Bind
+        f> OOP's problem solving
+    
+    4> Async JS
+        a> Callback
+        b> Promises
+        c> Async/await
+        d> Promises Combinators and their polyfills (all, allSettled, any, race)
+
+
+React
+    1> Component Architecture, JSX
+    2> Rendering, Virtual DOM, Reconcileations, state and props
+    3> Hooks ( useState, useEffects)
+    4> Context API (useContext, createContext, etc)
+    5> Advance Hook -> useMemo, useReducer, useCallback, useRef
+    6> Redux (Life Cycle, Thunk) -> State Management
+    7> Reusable componeent and Custom Hooks (V.V.Imp)
+
+    7> Machine Coding Problem 
+        a> Counter
+        b> TODO List
+        c> Pagination componet implementation
+        d> Sort something based on something
+        e> Create simple app by fetching data from api
+        f> Optimize something
+        g> Implement debounching, Throtlling, etc
+
+MERN
+
+NodeJs
+    1> {fs, os, path, http } Module
+    2> express -> Routing, MVC architecture, JWT, Password hashing
+    3> Middlewares
+    4> GET, PUT,POST,DELETE, PATCH methods
+    5> livu -> {Kernal, worker} Thread
+    6> MongoDb -> basic upadate , delete, create, 
+                How atlas, compass work 

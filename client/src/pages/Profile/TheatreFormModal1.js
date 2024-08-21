@@ -234,9 +234,4 @@ The TheatreFormModal component is a modal form used for adding or editing theatr
 
 
 
-
-
-
-
-
 */
