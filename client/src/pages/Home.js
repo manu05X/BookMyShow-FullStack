@@ -8,7 +8,7 @@ import moment from "moment";
 
 function Home() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // used to navigate to the perticular movie page using the id on whose poster or name we click
 
   // to save the data we need state at first time it empty after fetching from api in getData() we set state of movie from the response data.
   const [movies, setMovies] = useState([]);
@@ -57,7 +57,7 @@ This is the most straightforward way. By adding getData to the dependency array,
 However, if getData doesn't change, this won't cause any unnecessary re-renders or fetch calls.
 */
 
-  console.log(movies);
+  // console.log(movies); // All the movies that we have fetched from the database
 
   return (
     <>
@@ -71,7 +71,7 @@ However, if getData doesn't change, this won't cause any unnecessary re-renders 
       </Row>
 
       {/* <Row>
-      {working of map} 
+      {Basic working of map -> } 
         {movies.map(for each movie{can be any var})=> {
             we need a <list item  that will show>{movie.title}</list> and this list will be rendered
         {movies.map((movie) => {
@@ -89,6 +89,8 @@ However, if getData doesn't change, this won't cause any unnecessary re-renders 
             lg: 32,
           }}
         >
+          {/* here i am mapping every movie(var/key) and for each and every movie(var/key) i am returning a div i.e its value is 
+        returned in div  <div className="text-center"> inside div i have a img and a h3 */}
           {movies &&
             movies.map((movie) => (
               <Col
@@ -104,6 +106,8 @@ However, if getData doesn't change, this won't cause any unnecessary re-renders 
                 <div className="text-center">
                   <img
                     onClick={() => {
+                      //the navigate function will navigate the page to the perticular movie page using the id of that movie whose poster or name we click
+                      // it will navigate to the the route /movie/{id}/data/{name} -> /movie/${movie._id}?date=${moment().format("YYYY-MM-DD")}`
                       navigate(
                         `/movie/${movie._id}?date=${moment().format(
                           "YYYY-MM-DD"
