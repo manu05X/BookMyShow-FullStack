@@ -1,9 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { hideLoading, showLoading } from "../redux/loaderSlice";
 import { getMovieById } from "../apicalls/movies";
 import moment from "moment";
+import { Input } from "antd";
+import { CalendarOutlined } from "@ant-design/icons";
 
 const SingleMovie = () => {
   const params = useParams();
@@ -12,6 +14,13 @@ const SingleMovie = () => {
   //console.log(movieId);
   // to save the data we need state at first time it empty after fetching from api in getData() we set state of movie from the response data.
   const [movie, setMovie] = useState([]);
+  const [date, setDate] = useState(moment().format("YYYY-MM-DD")); // set state of date
+
+  //handle date events
+  const handleDate = (e) => {
+    setDate(moment(e.target.value).format("YYYY-MM-DD"));
+    navigator(`/movie/${params.id}?date=${e.target.value}`);
+  };
 
   const getData = useCallback(async () => {
     try {
@@ -60,6 +69,19 @@ const SingleMovie = () => {
               <p className="movie-data">
                 Duration: <span>{movie.duration} Minutes</span>
               </p>
+              <hr />
+              <div className="d-flex flex-column-mob align-items-center mt-3">
+                <label className="me-3 flex-shrink-0">Choose the date: </label>
+                <Input
+                  onChange={handleDate}
+                  type="date"
+                  min={moment().format("YYYY-MM-DD")}
+                  className="max-width-300 mt-8px-mob"
+                  value={date}
+                  placeholder="default size"
+                  prefix={<CalendarOutlined />}
+                />
+              </div>
             </div>
           </div>
         )}
