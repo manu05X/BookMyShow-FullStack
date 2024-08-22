@@ -42,10 +42,6 @@ const TheatreList = () => {
     }
   }, [dispatch, user._id]);
 
-  useEffect(() => {
-    getData();
-  }, [getData]);
-
   const columns = [
     {
       title: "Name",
@@ -59,7 +55,7 @@ const TheatreList = () => {
     },
     {
       title: "Phone Number",
-      dataIndex: "phone",
+      dataIndex: "phoneNumber",
       key: "phone",
     },
     {
@@ -71,7 +67,11 @@ const TheatreList = () => {
       title: "Status",
       dataIndex: "status",
       render: (status, data) => {
-        return data.isActive ? "Approved" : "Pending/Blocked";
+        if (data.isActive) {
+          return `Approved`;
+        } else {
+          return "Pending/Blocked";
+        }
       },
     },
     {
@@ -97,6 +97,7 @@ const TheatreList = () => {
             >
               <DeleteOutlined />
             </Button>
+            {/* Adding the Shows if the theatre is approved by the Admin isActive */}
             {data.isActive && (
               <Button
                 onClick={() => {
@@ -113,10 +114,20 @@ const TheatreList = () => {
     },
   ];
 
+  useEffect(() => {
+    getData();
+  }, [getData]);
+
   return (
     <>
       <div className="d-flex justify-content-end">
-        <Button type="primary" onClick={() => setIsModalOpen(true)}>
+        <Button
+          type="primary"
+          onClick={() => {
+            setIsModalOpen(true);
+            setFormType("add");
+          }}
+        >
           Add Theatre
         </Button>
       </div>
@@ -124,6 +135,8 @@ const TheatreList = () => {
       {isModalOpen && (
         <TheatreFormModal
           isModalOpen={isModalOpen}
+          selectedTheatre={selectedTheatre}
+          setSelectedTheatre={setSelectedTheatre}
           setIsModalOpen={setIsModalOpen}
           formType={formType}
           getData={getData}
@@ -132,8 +145,10 @@ const TheatreList = () => {
       {isDeleteModalOpen && (
         <DeleteTheatreModal
           isDeleteModalOpen={isDeleteModalOpen}
-          setIsDeleteModalOpen={setIsDeleteModalOpen}
           selectedTheatre={selectedTheatre}
+          setIsDeleteModalOpen={setIsDeleteModalOpen}
+          setSelectedTheatre={setSelectedTheatre}
+          getData={getData}
         />
       )}
       {isShowModalOpen && (
