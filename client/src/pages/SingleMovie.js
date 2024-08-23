@@ -1,11 +1,12 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { hideLoading, showLoading } from "../redux/loaderSlice";
 import { getMovieById } from "../apicalls/movies";
 import moment from "moment";
-import { Input } from "antd";
+import { Input, message, Row, Col, Divider } from "antd";
 import { CalendarOutlined } from "@ant-design/icons";
+import { getAllTheatresByMovie } from "../apicalls/shows";
 
 const SingleMovie = () => {
   const params = useParams();
@@ -14,9 +15,11 @@ const SingleMovie = () => {
   //console.log(movieId);
   // to save the data we need state at first time it empty after fetching from api in getData() we set state of movie from the response data.
   const [movie, setMovie] = useState([]);
-  const [date, setDate] = useState(moment().format("YYYY-MM-DD")); // set state of date
+  const [date, setDate] = useState(moment().format("YYYY-MM-DD")); // set state of date and by default it chooses current date
+  const [theatres, setTheatres] = useState([]);
+  const navigate = useNavigate();
 
-  //handle date events
+  //Function handle date events
   const handleDate = (e) => {
     setDate(moment(e.target.value).format("YYYY-MM-DD"));
     navigator(`/movie/${params.id}?date=${e.target.value}`);
@@ -40,11 +43,32 @@ const SingleMovie = () => {
     }
   }, [dispatch]);
 
+  //getting all the movies wrt to movie id and date for a specific theatre
+  const getAllTheatres = async () => {
+    try {
+      dispatch(showLoading());
+      const response = await getAllTheatresByMovie({ movie: params.id, date });
+      if (response.success) {
+        setTheatres(response.data);
+        console.log(theatres);
+      } else {
+        message.error(response.message);
+      }
+      dispatch(hideLoading());
+    } catch (err) {
+      dispatch(hideLoading());
+      message.err(err.message);
+    }
+  };
+
   useEffect(() => {
     getData();
   }, [getData]);
 
   //console.log(movie);
+  useEffect(() => {
+    getAllTheatres();
+  }, [date]);
 
   return (
     <>
@@ -83,6 +107,55 @@ const SingleMovie = () => {
                 />
               </div>
             </div>
+          </div>
+        )}
+        {/* If the theatres is empty then their is no Show available for the current movie  */}
+        {theatres.length === 0 && (
+          <div className="pt-3">
+            <h2 className="blue-clr">
+              currently, No theatres Available for this movie!
+            </h2>
+          </div>
+        )}
+        {theatres.length > 0 && (
+          <div className="theatre-wrapper mt-3 pt-3">
+            <h2>Theatres</h2>
+            {theatres.map((theatre) => {
+              return (
+                <div key={theatre._id}>
+                  <Row gutter={24} key={theatre._id}>
+                    <Col xs={{ span: 24 }} lg={{ span: 8 }}>
+                      <h3>{theatre.name}</h3>
+                      <p>{theatre.address}</p>
+                    </Col>
+                    <Col xs={{ span: 24 }} lg={{ span: 16 }}>
+                      <ul className="show-ul">
+                        {theatre.shows
+                          .sort(
+                            (a, b) =>
+                              moment(a.time, "HH:mm") - moment(b.time, "HH:mm")
+                          )
+                          .map((singleShow) => {
+                            return (
+                              <li
+                                key={singleShow._id}
+                                onClick={() =>
+                                  navigate(`/book-show/${singleShow._id}`)
+                                }
+                              >
+                                {moment(singleShow.time, "HH:mm").format(
+                                  "hh:mm A"
+                                )}
+                              </li>
+                            );
+                          })}
+                      </ul>
+                    </Col>
+                  </Row>
+                  <Divider />
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
