@@ -13,6 +13,7 @@ import Register from "./pages/Register";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./component/ProtectedRoute";
 import SingleMovie from "./pages/SingleMovie";
+import BookShow from "./pages/BookShow";
 
 function App() {
   //const { loading } = useSelector((state) => state.loading);
@@ -63,6 +64,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Profile />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/book-show/:id"
+            element={
+              <ProtectedRoute>
+                <BookShow />
               </ProtectedRoute>
             }
           />

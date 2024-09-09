@@ -52,3 +52,19 @@ const showSchema = new mongoose.Schema(
 const Show = mongoose.model("shows", showSchema);
 //4> export the model
 module.exports = Show;
+/*
+
+we need movie id for which we want to create the show and in which theatre so we need to have theatre id.
+
+ movie: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "movies",
+      required: true,
+    },
+theatre: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "theatres",
+      required: true,
+    },
+
+*/

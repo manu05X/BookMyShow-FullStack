@@ -1,41 +1,49 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { getMovieById } from "../apicalls/movies";
+import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useParams, useNavigate } from "react-router-dom";
 import { hideLoading, showLoading } from "../redux/loaderSlice";
-import { message, Input, Divider, Row, Col } from "antd";
-import { CalendarOutlined } from "@ant-design/icons";
+import { getMovieById } from "../apicalls/movies";
 import moment from "moment";
+import { Input, message, Row, Col, Divider } from "antd";
+import { CalendarOutlined } from "@ant-design/icons";
 import { getAllTheatresByMovie } from "../apicalls/shows";
 
 const SingleMovie = () => {
   const params = useParams();
-  const [movie, setMovie] = useState();
-  const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
-  const [theatres, setTheatres] = useState([]);
+  //   const movieId = params.id;
   const dispatch = useDispatch();
+  //console.log(movieId);
+  // to save the data we need state at first time it empty after fetching from api in getData() we set state of movie from the response data.
+  const [movie, setMovie] = useState([]);
+  const [date, setDate] = useState(moment().format("YYYY-MM-DD")); // set state of date and by default it chooses current date
+  const [theatres, setTheatres] = useState([]);
   const navigate = useNavigate();
+
+  //Function handle date events
   const handleDate = (e) => {
     setDate(moment(e.target.value).format("YYYY-MM-DD"));
-    navigate(`/movie/${params.id}?date=${e.target.value}`);
+    navigator(`/movie/${params.id}?date=${e.target.value}`);
   };
 
-  const getData = async () => {
+  const getData = useCallback(async () => {
     try {
       dispatch(showLoading());
-      const response = await getMovieById(params.id);
-      if (response.success) {
-        setMovie(response.data);
-      } else {
-        message.error(response.message);
-      }
-      dispatch(hideLoading());
-    } catch (err) {
-      message.error(err.message);
-      dispatch(hideLoading());
-    }
-  };
+      const movieId = params.id; // getting the movie id from the url using useParams
+      // console.log(movieId);
+      const response = await getMovieById(movieId); // passing the movieId that we extracted from the URL
 
+      //console.log(response);
+
+      setMovie(response.data);
+
+      dispatch(hideLoading());
+    } catch (error) {
+      dispatch(hideLoading());
+      console.error(error);
+    }
+  }, [dispatch]);
+
+  //getting all the movies wrt to movie id and date for a specific theatre
   const getAllTheatres = async () => {
     try {
       dispatch(showLoading());
@@ -55,8 +63,9 @@ const SingleMovie = () => {
 
   useEffect(() => {
     getData();
-  }, []);
+  }, [getData]);
 
+  //console.log(movie);
   useEffect(() => {
     getAllTheatres();
   }, [date]);
@@ -86,7 +95,7 @@ const SingleMovie = () => {
               </p>
               <hr />
               <div className="d-flex flex-column-mob align-items-center mt-3">
-                <label className="me-3 flex-shrink-0">Choose the date:</label>
+                <label className="me-3 flex-shrink-0">Choose the date: </label>
                 <Input
                   onChange={handleDate}
                   type="date"
@@ -100,10 +109,11 @@ const SingleMovie = () => {
             </div>
           </div>
         )}
+        {/* If the theatres is empty then their is no Show available for the current movie  */}
         {theatres.length === 0 && (
           <div className="pt-3">
             <h2 className="blue-clr">
-              Currently, no theatres available for this movie!
+              currently, No theatres Available for this movie!
             </h2>
           </div>
         )}
@@ -152,4 +162,16 @@ const SingleMovie = () => {
     </>
   );
 };
+
 export default SingleMovie;
+
+/*
+
+1> useParams is use to access id data from url i.e here we take out the id of movie from the URL and show it on the page
+2> Create a getData method to get perticular movie data from the id we extracted from url and send it to the backend api using 
+    the function getMovieById(params.id);
+3> With help of useState we save the data we need in State. At first time it empty after fetching from api in getData() we set state of movie from the response data.
+  const [movies, setMovies] = useState([]); then  we setMovies(response.data); from the response we get from the backend api call
+
+
+*/

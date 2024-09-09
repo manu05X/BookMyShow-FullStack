@@ -56,11 +56,14 @@ router.put("/update-show", async (req, res) => {
 });
 
 // Get shows by Movie
+//1> here we are fetching the unique theater with this below route
 //Go to the DB and find the movies by the date and check for which theatre it has been scheduled and populate the data accordingly
 router.post("/get-all-theatres-by-movie", async (req, res) => {
   try {
-    const { movie, date } = req.body;
+    const { movie, date } = req.body; // we are geeting this from our body i.e URL will have movie ID and the date
 
+    //Now we find the theatre where the movie is running on specified date and return that theatre or we return empty array
+    //Or if a show has been found for this date and the given movie date ,  then populate it according to the theatre
     const shows = await Show.find({ movie, date }).populate("theatre");
 
     let uniqueTheatres = []; // For mapping to unique theatre
@@ -95,7 +98,8 @@ router.post("/get-all-theatres-by-movie", async (req, res) => {
   // let uniqueTheatres = []
 });
 
-//1> Get all shows of a pericular Theatres and populate them wrt movie
+//2> Get all shows of a wrt unique Theatres and populate them wrt movie accordingly
+// Get Show by Theatres
 
 router.post("/get-all-shows-by-theatre", async (req, res) => {
   try {
@@ -119,6 +123,7 @@ router.post("/get-all-shows-by-theatre", async (req, res) => {
 // new
 router.post("/get-show-by-id", async (req, res) => {
   try {
+    console.log("get-show-by-id");
     const show = await Show.findById(req.body.showId)
       .populate("movie")
       .populate("theatre");
@@ -136,3 +141,17 @@ router.post("/get-show-by-id", async (req, res) => {
 });
 
 module.exports = router;
+
+/*
+
+using 1> /get-all-theatres-by-movie and 2> /get-all-shows-by-theatre 
+    we are able to get all the the diffrent shows wrt to a perticular theatre uniquily . Otherwise we would have repeative theater
+    name for different shows times. Example if PVR gave 3 show times i.e morning , noon and night , So it would be in a 
+        linear way Say-> PVR -> morning, noon, night
+        not like PVR -> morning
+                 PVR -> noon
+                 PVR -> night
+
+    So this repetaion is handled using the above api to get unique theater and wrt to it all the shows
+
+*/

@@ -35,7 +35,8 @@ const ShowModal = ({
   selectedTheatre,
 }) => {
   const [view, setView] = useState("table");
-  const [movies, setMovies] = useState(null);
+  const [movies, setMovies] = useState(null); //1> to get the movies from the database and show them in Options->(Select the movies), inside 
+  // the getData method we are calling getAllMovies()
   const [selectedMovie, setSelectedMovie] = useState(null);
   const [shows, setShows] = useState(null);
   const [selectedShow, setSelectedShow] = useState(null);
@@ -44,13 +45,14 @@ const ShowModal = ({
   const getData = async () => {
     try {
       dispatch(showLoading());
-      const movieResponse = await getAllMovies();
+      const movieResponse = await getAllMovies(); //2> get All movies data
       if (movieResponse.success) {
-        setMovies(movieResponse.data);
+        setMovies(movieResponse.data); //3> Setting them in setMovies -> we have all movie details in movies variable that can be used as dropdown in (Select the movies)
       } else {
         message.error(movieResponse.message);
       }
 
+      //Swnding only selected theatre(PVR, INOX) id whose show need to be fetched
       const showResponse = await getShowsByTheatre({
         theatreId: selectedTheatre._id,
       });
@@ -67,12 +69,13 @@ const ShowModal = ({
     }
   };
 
+  //This function is called when Form is submitted with the form data
   const onFinish = async (values) => {
     try {
       dispatch(showLoading());
       let response = null;
       if (view === "form") {
-        response = await addShow({ ...values, theatre: selectedTheatre._id });
+        response = await addShow({ ...values, theatre: selectedTheatre._id }); //Calls backend api addShow and adds a show to the Database
       } else {
         // console.log(view, selectedTheatre, selectedTheatre._id);
         response = await updateShow({
@@ -231,7 +234,7 @@ const ShowModal = ({
           layout="vertical"
           style={{ width: "100%" }}
           initialValues={view === "edit" ? selectedShow : null}
-          onFinish={onFinish}
+          onFinish={onFinish} // When we submit the form this will take all the data and onFinish function will be called using the submitted data
         >
           <Row
             gutter={{
@@ -320,6 +323,7 @@ const ShowModal = ({
                     className="d-block"
                     rules={[{ required: true, message: "Movie  is required!" }]}
                   >
+                  {/* select the movie from drop down-> by using movie data from movie variable that we got from useState */}
                     <Select
                       id="movie"
                       placeholder="Select Movie"

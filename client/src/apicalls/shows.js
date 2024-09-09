@@ -9,6 +9,8 @@ export const addShow = async (payload) => {
   }
 };
 
+// get the list of of shows wrt to the perticular theater so we are sending id as payload to the server
+
 export const getShowsByTheatre = async (payload) => {
   try {
     const response = await axiosInstance.post(
@@ -55,6 +57,7 @@ export const getAllTheatresByMovie = async (payload) => {
   }
 };
 
+// /api/shows/get-show-by-id for populating in booking page
 export const getShowById = async (payload) => {
   try {
     const response = await axiosInstance.post(
